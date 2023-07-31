@@ -1,63 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
-import Cookies from 'js-cookie';
+import React from "react";
+import "./App.css"
 
 function App() {
-  const [todos, setTodos] = useState([]);
-  const [newTodo, setNewTodo] = useState('');
-
-  // Load todos from cookies on initial mount
-  useEffect(() => {
-    const todosFromCookies = Cookies.getJSON('todos');
-    if (todosFromCookies && todosFromCookies.length) {
-      setTodos(todosFromCookies);
+  const pets = [
+    {
+      name: "Dolly",
+      type: "cat",
+      desc: "Dolly is a funny cat.",
+      skills: ["fetch", "play dead", "roll over"],
+      image: "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg"
+    },
+    {
+      name: "Molly",
+      type: "cat",
+      desc: "Dolly is a sweet cat.",
+      skills: ["fetch", "play dead", "roll over"],
+      image: "https://cdn.britannica.com/39/7139-050-A88818BB/Himalayan-chocolate-point.jpg"
     }
-  }, []);
-
-  // Save todos to cookies whenever todos state changes
-  useEffect(() => {
-    Cookies.set('todos', todos);
-  }, [todos]);
-
-  const handleInputChange = (event) => {
-    setNewTodo(event.target.value);
-  };
-  const handleAddTodo = () => {
-    if (newTodo.trim() !== '') {
-      setTodos([...todos, newTodo]);
-      setNewTodo('');
-    }
-  };
-  const handleDeleteTodo = (index) => {
-    const updatedTodos = todos.filter((_, i) => i !== index);
-    setTodos(updatedTodos);
-  };
-
-  return (
-    <center>
+  ];
+  return(
     <div className="App">
-      <header className="App-header">
-      <h1>Prakash</h1>
-        <h1>Todos</h1>
-        <div className="todo-container">
-          <div className="todo-input">
-            <input type="text" value={newTodo} onChange={handleInputChange} />
-            <button onClick={handleAddTodo}>Add</button>
-          </div>
-          <ul className="todo-list">
-            {todos.map((todo, index) => (
-              <li key={index}>
-                {todo}
-                <button onClick={() => handleDeleteTodo(index)}>Delete</button>
-              </li>
+      <h1>My pets</h1>
+      <ul className="container">
+        {pets.map((pet,index)=>(
+          <li key={index}>
+          <h1>{pet.name}</h1>
+          <p>{pet.desc}</p>
+          <img src={pet.image} alt={pet.name} width="200px" height="200px"/>
+          <ul className="skills">
+            {pet.skills.map((skill,index)=>(
+              <li key={skill}>{skill}</li>
             ))}
           </ul>
-        </div>
-        
-      </header>
+          </li>
+        ))}
+      </ul>
     </div>
-    </center>
-  );
-}
+  )
+        }
 
 export default App;
